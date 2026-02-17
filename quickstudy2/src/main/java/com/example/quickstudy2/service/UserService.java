@@ -12,6 +12,7 @@ import java.util.List;
 public class UserService {
 
     private final UserMapper userMapper;
+    private final HobbyService hobbyService;
 
     public User createUser(User user) {
         userMapper.saveUser(user);
@@ -20,5 +21,11 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userMapper.allUsers();
+    }
+
+    public User getUserById(long id) {
+        var user = userMapper.getUserById(id);
+        user.setHobbies(hobbyService.getHobbiesByUserId(user.getId()));
+        return user;
     }
 }
